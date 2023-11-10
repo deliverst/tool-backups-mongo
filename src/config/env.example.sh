@@ -1,9 +1,12 @@
-export cluster=''
-export id=''
-export exportDb=''
-export user=''
-export pass=''
-export importDb=''
+export user=user
+export pass=pass
+export cluster=cluster
+export exportDb=db
+export importDb=db
+export id='id'
 
-# Example oneliner connection to mongodb atlas
-# "mongosh \"mongodb+srv://$cluster.$id.mongodb.net/$exportDb\" --apiVersion 1 --username $user --password $pass"
+# URL to .evn
+# echo "mongodb+srv://$user:$pass@$cluster.$id.mongodb.net/$db?retryWrites=true&w=majority"
+
+# COMMAND TO CONNECTO FROM TERMINAL
+# mongosh "mongodb+srv://$cluster.$id.$mongodb.net/$db" --apiVersion 1 --username "$user" --password "$pass"

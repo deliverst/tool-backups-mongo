@@ -40,7 +40,8 @@ function getCLIConnection() {
 	echo -e "---- COMMAND TO CONNECT WITH MONGOSH ---- $lcyan the command was copied to clipboard $end"
 	echo "$command"
 	echo ""
-	commandEnv="mongodb+srv://$cluster.$id.mongodb.net/$exportDb\" --apiVersion 1 --username $user --password $pass"
+
+	commandEnv="mongodb+srv://$user:$pass@$cluster.$id.mongodb.net/$exportDb?retryWrites=true&w=majority"
 	echo "---- LINE TO ADD IN .ENV ----"
 	echo "$commandEnv"
 
