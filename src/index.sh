@@ -14,33 +14,38 @@ source "config/colors.sh"
 backupFolder=backup-history
 exportFolder=export-dbs
 
-
-
-function Help(){
+function Help() {
 	clear
 	op=($(cat index.sh | grep -E "^function" | sed -E 's/(function |\(\)|\{)//g' | xargs))
 	echo ""
+	echo -e "	Database: ------------ $exportDb ------------"
+	echo ""
 	echo -e "	1.- ${op[0]} $lgray # Print this menu$end"
 	echo -e "	2.- ${op[1]} $lgray # Get oneliner to conect to mongodb atlas with configuration$end"
-	echo -e "	3.- ${op[5]} $lgray # Export local database and import remote in mongodb atlas$end"
+	echo -e "	3.-$lred DISABLE BY DEFAULT $end $lgray # Export local database and import remote in mongodb atlas$end"
+	# echo -e "	3.- ${op[5]} $lgray # Export local database and import remote in mongodb atlas$end"
 	echo -e "	4.- ${op[6]} $lgray # Export remote database and import in local database$end"
 	echo -e "	5.- ${op[7]} $lgray # Backup local database$end"
 	echo -e "	6.- ${op[8]} $lgray # Backup remote database$end"
+	echo -e "	7.- ${op[9]} $lgray # Import DB previews backup, in local$end"
 	echo -e "	0.- Exit"
 	echo ""
 }
 
+function getCLIConnection() {
 
-function getCLIConnection(){
 	command="mongosh \"mongodb+srv://$cluster.$id.mongodb.net/$exportDb\" --apiVersion 1 --username $user --password $pass"
 	echo $command | pbcopy
 	echo ""
-	echo $command
+	echo -e "---- COMMAND TO CONNECT WITH MONGOSH ---- $lcyan the command was copied to clipboard $end"
+	echo "$command"
 	echo ""
-	echo -e "	$lcyan the command was copied to clipboard $end"
+	commandEnv="mongodb+srv://$cluster.$id.mongodb.net/$exportDb\" --apiVersion 1 --username $user --password $pass"
+	echo "---- LINE TO ADD IN .ENV ----"
+	echo "$commandEnv"
+
 	echo ""
 }
-
 
 function initialConfig() {
 	if [[ ! -d "$backupFolder" ]]; then
@@ -48,17 +53,15 @@ function initialConfig() {
 	fi
 }
 
-
-function getCurrentDate(){
+function getCurrentDate() {
 	date=$(date +%x | sed 's/\//-/g')
 	hourIn12=$(date +%I)
-	letterTime=$(date +%p | tr '[:upper:]' '[:lower:]' )
+	letterTime=$(date +%p | tr '[:upper:]' '[:lower:]')
 	time=$(date +%X | sed -Ee"s/^[[:digit:]][[:digit:]]/$hourIn12/" -e 's/:/-/g')
 	echo "$date"_"$time$letterTime" #-> 12-28-22.07-44-02 <MM><DD><YY>.<HH><MM><SS><PM or AM>
 }
 
-
-function backup(){
+function backup() {
 	from=$1 #local or remote
 	outputFile="./$backupFolder/$from/$exportDb"_"$(getCurrentDate).tar"
 	inputFile="$exportFolder/$from/$exportDb"
@@ -72,55 +75,57 @@ function backup(){
 	echo "$exportFolder/$from/$exportDb" | pbcopy
 }
 
-
-function exportLocal_ImportRemote(){
+function exportLocal_ImportRemote() {
 	from="local"
 	mongodump -d "$exportDb" -o "$exportFolder/$from"
 	mongorestore --uri="mongodb+srv://$cluster.$id.mongodb.net/" --nsInclude="$importDb.*" -u $user -p $pass "$exportFolder/$from"
 	backup "$from"
 }
 
-
-function exportRempote_ImportLocal(){
+function exportRempote_ImportLocal() {
 	from="remote"
 	mongodump --uri="mongodb+srv://$cluster.$id.mongodb.net/" -d "$exportDb" -u $user -p $pass -o "$exportFolder/$from"
 	mongorestore --nsInclude="$importDb.*" "$exportFolder/$from/" # mongorestore <name-of-database-in-db> <path-name-of-database-to-import>
 	backup "$from"
 }
 
-
-function backupLocal(){
+function backupLocal() {
 	from="local"
 	mongodump -d "$exportDb" -o "$exportFolder/$from"
 	backup $from
 }
 
-function backupRemote(){
+function backupRemote() {
 	from="remote"
 	mongodump --uri="mongodb+srv://$cluster.$id.mongodb.net/" -d "$exportDb" -u $user -p $pass -o "$exportFolder/$from"
 	backup "$from"
 }
 
-function menu (){
+function importLocalToLocalMDB() {
+	local from="local"
+	mongorestore --nsInclude="$importDb.*" "$exportFolder/$from/"
+}
+
+function menu() {
 	if [ "$#" -eq 0 ]; then
 		initialConfig
 		Help
-	    while [[ $op != "" ]]; do
-	    	read -n 1 -p "Choise an option: " op;
-	    	echo ""
-	        case $op in
-	            "1") Help;;
-	            "2") getCLIConnection;;
-	            "3") exportLocal_ImportRemote;;
-	            "4") exportRempote_ImportLocal;;
-	            "5") backupLocal;;
-	            "6") backupRemote;;
-	            "0") break;;
-	            *) echo -e "${BRed}Selected option ${BCyan}'$op'${NC} ${BRed}couldn't be find in the list of provided options${NC}"
-	        esac
-	    done
+		while [[ $op != "" ]]; do
+			read -n 1 -p "Choise an option: " op
+			echo ""
+			case $op in
+			"1") Help ;;
+			"2") getCLIConnection ;;
+			# "3") exportLocal_ImportRemote ;;
+			"4") exportRempote_ImportLocal ;;
+			"5") backupLocal ;;
+			"6") backupRemote ;;
+			"7") importLocalToLocalMDB ;;
+			"0") break ;;
+			*) echo -e "${BRed}Selected option ${BCyan}'$op'${NC} ${BRed}couldn't be find in the list of provided options${NC}" ;;
+			esac
+		done
 	fi
 }
-
 
 menu
