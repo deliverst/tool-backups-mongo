@@ -1,0 +1,22 @@
+# corpfiscal
+user="op://Corporativo Fiscal/2jf4h2rs36syznmougfdk4moum/Details Database/user"
+pass="op://Corporativo Fiscal/2jf4h2rs36syznmougfdk4moum/Details Database/pass"
+cluster="op://Corporativo Fiscal/2jf4h2rs36syznmougfdk4moum/Details Database/cluster"
+id="op://Corporativo Fiscal/2jf4h2rs36syznmougfdk4moum/Details Database/id"
+exportDb="op://Corporativo Fiscal/2jf4h2rs36syznmougfdk4moum/Details Database/exportDb"
+importDb="op://Corporativo Fiscal/2jf4h2rs36syznmougfdk4moum/Details Database/importDb"
+
+# grupo-nevarez
+# user="op://Shared/2n35vbuzv76pojximcqqaydwq4/Information Database/user"
+# pass="op://Shared/2n35vbuzv76pojximcqqaydwq4/Information Database/pass"
+# cluster="op://Shared/2n35vbuzv76pojximcqqaydwq4/Information Database/cluster"
+# id="op://Shared/2n35vbuzv76pojximcqqaydwq4/Information Database/id"
+# exportDb="op://Shared/2n35vbuzv76pojximcqqaydwq4/Information Database/exportDb"
+# importDb="op://Shared/2n35vbuzv76pojximcqqaydwq4/Information Database/importDb"
+
+# ---EXAMPLES---
+# URL to .evn
+# echo "mongodb+srv://$user:$pass@$cluster.$id.mongodb.net/$db?retryWrites=true&w=majority"
+
+# COMMAND TO CONNECTO FROM TERMINAL
+# mongosh "mongodb+srv://$cluster.$id.$mongodb.net/$db" --apiVersion 1 --username "$user" --password "$pass"

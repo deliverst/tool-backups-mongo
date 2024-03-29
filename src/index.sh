@@ -7,8 +7,17 @@
 # status: finish
 
 # import env
-source "config/env.sh"
+# source "config/env.sh"
 source "config/colors.sh"
+
+# echo "user: $user"
+# echo "pass: $pass"
+# echo "cluster: $cluster"
+# echo "id: $id"
+# echo "importDb: $importDb"
+# echo "exportDb: $importDb"
+exportDb="$importDb"
+# op run --no-masking --env-file="./config/.env" -- ./index.sh
 
 # default folders
 backupFolder=backup-history
@@ -16,13 +25,13 @@ exportFolder=export-dbs
 
 function Help() {
 	clear
-	op=($(cat index.sh | grep -E "^function" | sed -E 's/(function |\(\)|\{)//g' | xargs))
+	op=($(cat index.sh | grep -E "^#?\s?function" | sed -E 's/(function |\(\)|\{)//g' | xargs))
 	echo ""
 	echo -e "	Database: ------------ $exportDb ------------"
 	echo ""
 	echo -e "	1.- ${op[0]} $lgray # Print this menu$end"
 	echo -e "	2.- ${op[1]} $lgray # Get oneliner to conect to mongodb atlas with configuration$end"
-	echo -e "	3.-$lred DISABLE BY DEFAULT $end $lgray # Export local database and import remote in mongodb atlas$end"
+	echo -e "	3.- ${op[5]} $lred DISABLE BY DEFAULT $end $lgray # Export local database and import remote in mongodb atlas$end"
 	# echo -e "	3.- ${op[5]} $lgray # Export local database and import remote in mongodb atlas$end"
 	echo -e "	4.- ${op[6]} $lgray # Export remote database and import in local database$end"
 	echo -e "	5.- ${op[7]} $lgray # Backup local database$end"
@@ -64,9 +73,9 @@ function getCurrentDate() {
 
 function backup() {
 	from=$1 #local or remote
-	outputFile="./$backupFolder/$from/$exportDb"_"$(getCurrentDate).tar"
+	outputFile="./$backupFolder/$from/$exportDb"_"$(getCurrentDate).tar.gz"
 	inputFile="$exportFolder/$from/$exportDb"
-	tar -cf "$outputFile" "$inputFile"
+	tar -cvzf "$outputFile" "$inputFile"
 	echo ""
 	echo ""
 	echo -e "	$lcyan the backup history and compress was saved on $outputFile $end"
@@ -76,13 +85,17 @@ function backup() {
 	echo "$exportFolder/$from/$exportDb" | pbcopy
 }
 
+# ----------🔴 WARNING!!! THIS FUNCTION EXPORT LOCAL AND IMPORT IN REMOTE OVERWRITE THE DATA IN REMOTE WARNING!!!🔴----------
+# 	from="local"
+# 	mongodump -d "$exportDb" -o "$exportFolder/$from"
+# 	mongorestore --uri="mongodb+srv://$cluster.$id.mongodb.net/" --nsInclude="$importDb.*" -u $user -p $pass "$exportFolder/$from"
+# 	backup "$from"
+
 function exportLocal_ImportRemote() {
-	from="local"
-	mongodump -d "$exportDb" -o "$exportFolder/$from"
-	mongorestore --uri="mongodb+srv://$cluster.$id.mongodb.net/" --nsInclude="$importDb.*" -u $user -p $pass "$exportFolder/$from"
-	backup "$from"
+	echo "this function is disabled"
 }
 
+#🟢
 function exportRempote_ImportLocal() {
 	from="remote"
 	mongodump --uri="mongodb+srv://$cluster.$id.mongodb.net/" -d "$exportDb" -u $user -p $pass -o "$exportFolder/$from"

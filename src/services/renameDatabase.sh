@@ -7,8 +7,8 @@
 # 1.- delete database in mongoose
 # 2.- clean the folders created when dumped
 
-nameCurrentDatabas="humberto-app"
-newNameDatabase="grupo-nevarez"
+nameCurrentDatabas="cobranza"
+newNameDatabase="corpfiscal-db"
 folderToSaveDatabase="temp"
 
 mongodump -d "$nameCurrentDatabas" -o "$folderToSaveDatabase"
