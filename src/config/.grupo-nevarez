@@ -1,9 +1,9 @@
-user="op://Shared/2n35vbuzv76pojximcqqaydwq4/Information Database/user"
-pass="op://Shared/2n35vbuzv76pojximcqqaydwq4/Information Database/pass"
-cluster="op://Shared/2n35vbuzv76pojximcqqaydwq4/Information Database/cluster"
-id="op://Shared/2n35vbuzv76pojximcqqaydwq4/Information Database/id"
-exportDb="op://Shared/2n35vbuzv76pojximcqqaydwq4/Information Database/exportDb"
-importDb="op://Shared/2n35vbuzv76pojximcqqaydwq4/Information Database/importDb"
+user="op://Personal/h3bhcbq7tpwinkghh2pydswbr4/Information Database/user"
+pass="op://Personal/h3bhcbq7tpwinkghh2pydswbr4/Information Database/pass"
+cluster="op://Personal/h3bhcbq7tpwinkghh2pydswbr4/Information Database/cluster"
+id="op://Personal/h3bhcbq7tpwinkghh2pydswbr4/Information Database/id"
+exportDb="op://Personal/h3bhcbq7tpwinkghh2pydswbr4/Information Database/exportDb"
+importDb="op://Personal/h3bhcbq7tpwinkghh2pydswbr4/Information Database/importDb"
 
 # URL to .evn
 # echo "mongodb+srv://$user:$pass@$cluster.$id.mongodb.net/$db?retryWrites=true&w=majority"
