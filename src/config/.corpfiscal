@@ -20,3 +20,6 @@ importDb="op://Corporativo Fiscal/2jf4h2rs36syznmougfdk4moum/Details Database/im
 
 # COMMAND TO CONNECTO FROM TERMINAL
 # mongosh "mongodb+srv://$cluster.$id.$mongodb.net/$db" --apiVersion 1 --username "$user" --password "$pass"
+
+# connect cli terminal with op
+# mongosh "mongodb+srv://$(op read 'op://Corporativo Fiscal/2jf4h2rs36syznmougfdk4moum/Details Database/cluster').$(op read 'op://Corporativo Fiscal/2jf4h2rs36syznmougfdk4moum/Details Database/id').mongodb.net/$(op read 'op://Corporativo Fiscal/2jf4h2rs36syznmougfdk4moum/Details Database/importDb')?retryWrites=true&w=majority" --apiVersion 1 --username "$(op read 'op://Corporativo Fiscal/2jf4h2rs36syznmougfdk4moum/Details Database/user')" --password "$(op read 'op://Corporativo Fiscal/2jf4h2rs36syznmougfdk4moum/Details Database/pass')"

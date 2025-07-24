@@ -1,0 +1,17 @@
+# taskmgr
+user="op://Private/ziv4utr5nmdqn4fneo7y7el4qy/Database/user"
+pass="op://Private/ziv4utr5nmdqn4fneo7y7el4qy/Database/pass"
+cluster="op://Private/ziv4utr5nmdqn4fneo7y7el4qy/Database/cluster"
+id="op://Private/ziv4utr5nmdqn4fneo7y7el4qy/Database/id"
+exportDb="op://Private/ziv4utr5nmdqn4fneo7y7el4qy/Database/exportDb"
+importDb="op://Private/ziv4utr5nmdqn4fneo7y7el4qy/Database/importDb"
+
+# ---EXAMPLES---
+# URL to .evn
+# echo "mongodb+srv://$user:$pass@$cluster.$id.mongodb.net/$db?retryWrites=true&w=majority"
+
+# COMMAND TO CONNECTO FROM TERMINAL
+# mongosh "mongodb+srv://$cluster.$id.$mongodb.net/$db" --apiVersion 1 --username "$user" --password "$pass"
+
+# connect cli terminal with op
+# mongosh "mongodb+srv://$(op read op://Private/ziv4utr5nmdqn4fneo7y7el4qy/Database/cluster).$(op read op://Private/ziv4utr5nmdqn4fneo7y7el4qy/Database/id).mongodb.net/$(op read op://Private/ziv4utr5nmdqn4fneo7y7el4qy/Database/importDb)?retryWrites=true&w=majority" --apiVersion 1 --username "$(op read op://Private/ziv4utr5nmdqn4fneo7y7el4qy/Database/user)" --password "$(op read op://Private/ziv4utr5nmdqn4fneo7y7el4qy/Database/pass)"

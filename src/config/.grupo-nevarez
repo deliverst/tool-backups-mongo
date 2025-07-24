@@ -10,3 +10,6 @@ importDb="op://Personal/h3bhcbq7tpwinkghh2pydswbr4/Information Database/importDb
 
 # COMMAND TO CONNECTO FROM TERMINAL
 # mongosh "mongodb+srv://$cluster.$id.$mongodb.net/$db" --apiVersion 1 --username "$user" --password "$pass"
+
+# connect cli terminal with op
+# mongosh "mongodb+srv://$(op read 'op://Personal/h3bhcbq7tpwinkghh2pydswbr4/Information Database/cluster').$(op read 'op://Personal/h3bhcbq7tpwinkghh2pydswbr4/Information Database/id').mongodb.net/$(op read 'op://Personal/h3bhcbq7tpwinkghh2pydswbr4/Information Database/importDb')?retryWrites=true&w=majority" --apiVersion 1 --username "$(op read 'op://Personal/h3bhcbq7tpwinkghh2pydswbr4/Information Database/user')" --password "$(op read 'op://Personal/h3bhcbq7tpwinkghh2pydswbr4/Information Database/pass')"
